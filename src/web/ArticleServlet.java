@@ -16,36 +16,34 @@ import dao.ArticleDao;
 import model.Article;
 import util.DbUtil;
 
+public class ArticleServlet extends HttpServlet {
 
-
-
-public class ArticleServlet extends HttpServlet  {
-	
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		this.doPost(request, response);
 	}
+
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		Connection con= null;
-		ArticleDao articleDao =  new ArticleDao();
+		Connection con = null;
+		ArticleDao articleDao = new ArticleDao();
 		DbUtil dbutil = new DbUtil();
 		try {
-			con= dbutil.getCon();
+			con = dbutil.getCon();
 			List<Article> articleList = articleDao.showArticle(con);
 			request.setAttribute("articleList", articleList);
 
-			String text= articleList.get(0).getArticle_text();
+			String text = articleList.get(0).getArticle_text();
 			request.setAttribute("text", text);
 			RequestDispatcher dispatcher = request.getRequestDispatcher("index.jsp");
 			dispatcher.forward(request, response);
- 		} catch (Exception e) {
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}finally{
+		} finally {
 			try {
 				con.close();
 			} catch (SQLException e) {
@@ -53,7 +51,7 @@ public class ArticleServlet extends HttpServlet  {
 				e.printStackTrace();
 			}
 		}
-		
+
 	}
 
 }
